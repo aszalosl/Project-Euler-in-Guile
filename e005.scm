@@ -5,17 +5,8 @@
 ;; of the numbers from 1 to 20?
 
 (add-to-load-path ".")
-(use-modules (euler-module)   ; factor
+(use-modules (euler-module)   ; factor, group-factors
              (srfi srfi-42))  ; list comprehension
-
-(define (group-factors factor-list counter)
-  ; from the list of the factors create a list of pairs factor(base)-exponent
-  (if (null? (cdr factor-list))
-    (list (cons (car factor-list) counter))
-    (if (= (car factor-list) (cadr factor-list))
-      (group-factors (cdr factor-list) (1+ counter))
-      (cons (cons (car factor-list) counter)
-            (group-factors (cdr factor-list) 1)))))
 
 (define (max-associative pairs new-pair)
   ; joins two list of pairs with same base, 
@@ -45,7 +36,7 @@
   (prime-powers 
     (max-pairs '() 
                (apply append (list-ec (:range i 2 limit) 
-                                      (group-factors (factors i) 1))))
+                                      (group-factors (factors i)))))
     1))
 ;(e005 10)
 (display (e005 20))
